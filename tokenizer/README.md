@@ -25,11 +25,7 @@ To delete binaries:
 $ make clean
 ~~~
 
-# Known issues #
 
-1. There seems to be a problem with the getTokenLength method, the variable numTokens causes an issue, a static variable had to be declared but has a fixed int of 5 at the moment.
-
-2. There is a warning when calling the mytoc function from main.
 
 
 
