@@ -8,11 +8,10 @@
  */
 
 
-#ifndef mytoc
-#define mytoc
 
 int countTokens(char *str, char delim);
-int * getTokenLength(char * str, char delim, int numTokens);
+void getTokenLength(int * tokenLengths, char * str, char delim, int numTokens);
 void setTokens(char ** tokenVec, char * str, char delim, int numTokens, int * tokenLength);
-//char ** mytoc(char *str, char delim);
-#endif
+char ** mytoc( char * str, char delim);
+int checkExit(char ** tokenVec);
+void freeMem(char ** tokenVec);

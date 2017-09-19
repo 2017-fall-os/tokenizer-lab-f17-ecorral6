@@ -48,28 +48,29 @@ int countTokens(char *str, char delim)
  * */
 
 
-int * getTokenLength(char * str, char delim, int numTokens)
+void getTokenLength(int * tokenLengths, char * str, char delim, int numTokens)
 {
-  int i, j = 0;
+  int i, j = 0, k = 0;
 
-  /**
-   *There is a warning when using @var numTokens, variable was declared static with fixed
-   *int
-   */
   
-  static int tokenLengths[5];
-  
-  for (i = 0; i < numTokens; i++)
+    for (i = 0; i < numTokens; i++)
     {
-     
-      tokenLengths[i] = 0;
+      
       while(str[j] != delim && str[j] != '\0')
 	{
-	  tokenLengths[i] = j;
+	 
+	  tokenLengths[i] = k;  
+	  k++;
 	  j++;
+	 
 	}
+     
+      j++;
+      
+      k = 0;
+
     }
-  return tokenLengths;
+   
 
 }
 
@@ -85,22 +86,32 @@ int * getTokenLength(char * str, char delim, int numTokens)
 
 void setTokens(char ** tokenVec, char * str, char delim, int numTokens, int * tokenLength)
 {
-  int i, j, k;
-
+  int i, j= 0, k = 0;
+  
   for (i = 0 ; i < numTokens ; i++)
     {
-      tokenVec[i] = (char *)malloc(tokenLength[i]);
-    
-      while( str[j] != delim && str[j] != '\0')
-	{
+      tokenVec[i] = (char *)malloc(tokenLength[i]+1);
+      
+       while(str[j] != delim &&  str[j] != '\0')
+      	{
+	  
 	  tokenVec[i][k] = str[j];
-	  j++;
-	  k++;
-	}
+	 
+	  
+	          k++;
+	  	  j++;
+	  	 
+	 	}
+       tokenVec[i][j] = '\0';
+       j++;
+       k = 0;
+   
+     
+       
 
-      tokenVec[i][k] = '\0';
-	
+       
     }
+  
   
 }
 
@@ -115,12 +126,56 @@ void setTokens(char ** tokenVec, char * str, char delim, int numTokens, int * to
 char ** mytoc(char *str, char delim)
 {
   int numTokens = countTokens(str, delim);
-  int * tokenLengths = getTokenLength( str, delim, numTokens);
-  char **tokenVec = (char **)calloc(numTokens, sizeof(char *));
-  setTokens(tokenVec, str, delim, numTokens, tokenLengths);
+  int tokenLengths[numTokens];
+  getTokenLength(tokenLengths,str, delim, numTokens);
+ char **tokenVec = (char **)calloc(numTokens, sizeof(char *));
+ setTokens(tokenVec, str, delim, numTokens, tokenLengths);
 
   return tokenVec;
 }
+
+/**
+ * Summary of checkExit
+ * Checks to see if the first token in the vector equasl to exit
+ * @param char ** tokenVec
+ * @return int
+ * */
+
+  int checkExit(char ** tokenVec)
+    {
+      char * exit = "exit";
+      int counter;
+      int i;
+      for(i = 0; i < 4 ; i++)
+	{
+	
+	  if(tokenVec[0][i] == exit[i])
+	    {
+	      counter++;
+	      if(counter == 3)
+		{
+		  return 1;
+		}
+	    }
+	
+	}
+        return 0;
+    }
+
+/**
+ * Summary of freeMem
+ * Frees memory allocated by the token vector
+ * @param char ** tokenVec
+ * */
+
+void freeMem(char ** tokenVec)
+{
+  for (int i = 0 ; tokenVec[i] != '\0' ; i++)
+    {
+      free(tokenVec[i]);
+    }
+}
+
 
 
 

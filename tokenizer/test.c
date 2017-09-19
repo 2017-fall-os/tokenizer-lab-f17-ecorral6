@@ -12,25 +12,34 @@
 #include <unistd.h>
 #include "mytoc.h"
 
-  void  main()
+
+
+  int  main()
 {
+  char ** tokenVec;
+  do{
+  	char buffer[128];
+	printf ("$ ");
+	fflush(stdout);
+	fgets(buffer, 128, stdin);	
 
-  int status = 1;
-  printf("%s", "hello");
+	tokenVec = mytoc(buffer, ' ');
+        
+	for(int i = 0 ; tokenVec[i] != '\0' ; i++)
+	  {
+	    printf("%d: %s\n", i, tokenVec[i]);
+	  }
+	
+  }
 
-   while(status != 0)
-    {
-      int buffer[4096];
-      read(0, buffer, 4096);
-      char ** vecTokens = mytoc(buffer, ' ');
+  while(checkExit(tokenVec) != 1);
+  freeMem(tokenVec);
+}	
+ 
 
-      for(int i = 0 ; vecTokens[i] != '\0' ; i++)
-	{
-	  printf("%d, %s", i, vecTokens[i]); 
-	}
-    }
-  
-  
-}
+
+
+       
+
 
 
